@@ -28,6 +28,7 @@ public class LazyTransitioner : NSObject {
         }
     }
     public var triggerTransitionAction: (LazyTransitioner) -> () = { _ in }
+    public var transitionAnimatorCallBack: ((Bool) -> Void)? = nil
     
     fileprivate let internalAnimator: TransitionAnimatorType
     fileprivate let internalInteractor: TransitionInteractor
@@ -112,6 +113,10 @@ public class LazyTransitioner : NSObject {
 extension LazyTransitioner: TransitionerDelegate {
     public func beginTransition(with transitioner: TransitionerType) {
         triggerTransitionAction(self)
+    }
+    
+    public func finishedInteractiveTransition(_ completed: Bool) {
+        transitionAnimatorCallBack?(completed)
     }
 }
 
